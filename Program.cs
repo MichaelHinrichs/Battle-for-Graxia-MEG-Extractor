@@ -1,5 +1,6 @@
 ﻿//Written for Battle for Graxia. https://steamcommunity.com/app/90530/
 using System.IO;
+using System.IO.Compression;
 
 namespace Battle_for_Graxia_MEG_Extractor
 {
@@ -21,17 +22,33 @@ namespace Battle_for_Graxia_MEG_Extractor
 
             br.ReadInt16();
 
-            System.Collections.Generic.List< fileData > data = new();
+            System.Collections.Generic.List<fileData> data = new();
             for (int i = 0; i < fileCount; i++)
                 data.Add(new());
-            
+
+            string path = Path.GetDirectoryName(args[0]) + "//" + Path.GetFileNameWithoutExtension(args[0]) + "//";
             for (int i = 0; i < fileCount; i++)
             {
                 br.BaseStream.Position = data[i].start;
-                Directory.CreateDirectory(Path.GetDirectoryName(args[0]) + "//" + Path.GetFileNameWithoutExtension(args[0]) + "//" + Path.GetDirectoryName(names[i]));
-                BinaryWriter bw = new(File.Create(Path.GetDirectoryName(args[0]) + "//" + Path.GetFileNameWithoutExtension(args[0]) + "//" + names[i]));
+                Directory.CreateDirectory(path + Path.GetDirectoryName(names[i]));
+                BinaryWriter bw = new(File.Create(path + "//" + names[i]));
                 bw.Write(br.ReadBytes(data[i].size));
                 bw.Close();
+
+                switch (Path.GetExtension(names[i]))
+                {
+                    case ".APF":
+                    case ".CPD":
+                    case ".GPD":
+                    case ".SOB":
+                    case ".TED":
+                    case ".TER":
+                    case ".ALO":
+                    case ".ALA":
+                        Decompress(path + "//" + names[i]);
+                        break;
+
+                }
             }
         }
 
@@ -42,6 +59,17 @@ namespace Battle_for_Graxia_MEG_Extractor
             public int size = br.ReadInt32();
             public int start = br.ReadInt32();
             int unknown2 = br.ReadInt32();
+        }
+
+        public static void Decompress(string file)
+        {
+            BinaryReader decmps = new BinaryReader(File.OpenRead(file));
+            decmps.BaseStream.Position = 16;
+            int size = decmps.ReadInt32();
+            decmps.BaseStream.Position += 18;
+            Directory.CreateDirectory(Path.GetDirectoryName(file) + "\\extracted\\");
+            using (var ds = new DeflateStream(new MemoryStream(decmps.ReadBytes((size - 2))), CompressionMode.Decompress))
+                ds.CopyTo(File.Create(Path.GetDirectoryName(file) + "\\extracted\\" + Path.GetFileName(file)));
         }
     }
 }
