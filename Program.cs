@@ -22,7 +22,7 @@ namespace Battle_for_Graxia_MEG_Extractor
 
             br.ReadInt16();
 
-            System.Collections.Generic.List<fileData> data = new();
+            System.Collections.Generic.List<FileData> data = new();
             for (int i = 0; i < fileCount; i++)
                 data.Add(new());
 
@@ -52,7 +52,7 @@ namespace Battle_for_Graxia_MEG_Extractor
             }
         }
 
-        public class fileData
+        public class FileData
         {
             float unknown = br.ReadSingle();
             int number = br.ReadInt32();
@@ -63,7 +63,7 @@ namespace Battle_for_Graxia_MEG_Extractor
 
         public static void Decompress(string file)
         {
-            BinaryReader decmps = new BinaryReader(File.OpenRead(file));
+            BinaryReader decmps = new(File.OpenRead(file));
             decmps.BaseStream.Position = 16;
             int size = decmps.ReadInt32();
             decmps.BaseStream.Position += 18;
