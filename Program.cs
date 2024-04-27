@@ -67,9 +67,13 @@ namespace Battle_for_Graxia_MEG_Extractor
             decmps.BaseStream.Position = 16;
             int size = decmps.ReadInt32();
             decmps.BaseStream.Position += 18;
-            Directory.CreateDirectory(Path.GetDirectoryName(file) + "\\extracted\\");
+            string path = Path.GetDirectoryName(file) + "\\extracted\\";
+            Directory.CreateDirectory(path);
+            FileStream fs = File.Create(path + Path.GetFileName(file));
             using (var ds = new DeflateStream(new MemoryStream(decmps.ReadBytes((size - 2))), CompressionMode.Decompress))
-                ds.CopyTo(File.Create(Path.GetDirectoryName(file) + "\\extracted\\" + Path.GetFileName(file)));
+                ds.CopyTo(fs);
+
+            fs.Close();
         }
     }
 }
