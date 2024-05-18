@@ -1,4 +1,5 @@
 ﻿//Written for Battle for Graxia. https://steamcommunity.com/app/90530/
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
@@ -16,13 +17,13 @@ namespace Battle_for_Graxia_MEG_Extractor
             int namesCount = br.ReadInt32();
             int fileTableStart = br.ReadInt32();
 
-            System.Collections.Generic.List<string> names = new();
+            List<string> names = new();
             for (int i = 0; i < namesCount; i++)
                 names.Add(new(br.ReadChars(br.ReadInt16())));
 
             br.ReadInt16();
 
-            System.Collections.Generic.List<FileData> data = new();
+            List<FileData> data = new();
             for (int i = 0; i < fileCount; i++)
                 data.Add(new());
 
