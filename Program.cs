@@ -27,16 +27,25 @@ namespace Battle_for_Graxia_MEG_Extractor
             for (int i = 0; i < fileCount; i++)
                 data.Add(new());
 
-            string path = Path.GetDirectoryName(args[0]) + "//" + Path.GetFileNameWithoutExtension(args[0]) + "//";
-            for (int i = 0; i < fileCount; i++)
+            string path = Path.GetDirectoryName(args[0]);
+            int n = 0;
+            foreach (FileData file in data)
             {
-                br.BaseStream.Position = data[i].start;
-                Directory.CreateDirectory(path + Path.GetDirectoryName(names[i]));
-                BinaryWriter bw = new(File.Create(path + "//" + names[i]));
-                bw.Write(br.ReadBytes(data[i].size));
+                br.BaseStream.Position = file.start;
+                if (Path.GetDirectoryName(names[n]) != "")
+                {
+                    Directory.CreateDirectory(path + "//" + Path.GetDirectoryName(names[n]));
+                    bw = new(File.Create(path + "//" + names[n]));
+                }
+                else
+                {
+                    Directory.CreateDirectory(path + "//Data//" + Path.GetFileNameWithoutExtension(args[0]));
+                    bw = new(File.Create(path + "//Data//" + Path.GetFileNameWithoutExtension(args[0]) + "//" + names[n]));
+                }
+                bw.Write(br.ReadBytes(file.size));
                 bw.Close();
 
-                switch (Path.GetExtension(names[i]))
+                switch (Path.GetExtension(names[n]))
                 {
                     case ".APF":
                     case ".CPD":
@@ -46,14 +55,15 @@ namespace Battle_for_Graxia_MEG_Extractor
                     case ".TER":
                     case ".ALO":
                     case ".ALA":
-                        Decompress(path + "//" + names[i]);
+                        Decompress(path + "//" + names[n]);
                         break;
 
                 }
+                n++;
             }
         }
 
-        public class FileData
+        class FileData
         {
             float unknown = br.ReadSingle();
             int number = br.ReadInt32();
