@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34407.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battle-for-Graxia-MEG-Extractor", "Battle-for-Graxia-MEG-Extractor.csproj", "{2907E526-330D-48BE-AB05-D378EB171925}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megafile-Extractor", "Megafile-Extractor.csproj", "{2907E526-330D-48BE-AB05-D378EB171925}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

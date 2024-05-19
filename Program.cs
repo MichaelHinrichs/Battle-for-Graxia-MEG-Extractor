@@ -1,9 +1,11 @@
-﻿//Written for Battle for Graxia. https://steamcommunity.com/app/90530/
+﻿//Written for games that use Megafiles.
+//Battle for Graxia https://steamcommunity.com/app/90530/
+//Victory Command https://steamcommunity.com/app/360480/
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
-namespace Battle_for_Graxia_MEG_Extractor
+namespace Megafile_Extractor
 {
     class Program
     {
@@ -11,7 +13,10 @@ namespace Battle_for_Graxia_MEG_Extractor
         static void Main(string[] args)
         {
             br = new BinaryReader(File.OpenRead(args[0]));
-            br.BaseStream.Position = 8;
+
+            if (new string(System.Text.Encoding.GetEncoding("ISO-8859-1").GetChars(br.ReadBytes(8))) != "ÿÿÿÿ¤p}?")
+                throw new System.Exception("This is not a Megafile.");
+
             int fileDataTableStart = br.ReadInt32();
             int fileCount = br.ReadInt32();
             int namesCount = br.ReadInt32();
@@ -32,6 +37,7 @@ namespace Battle_for_Graxia_MEG_Extractor
             foreach (FileData file in data)
             {
                 br.BaseStream.Position = file.start;
+                BinaryWriter bw;
                 if (Path.GetDirectoryName(names[n]) != "")
                 {
                     Directory.CreateDirectory(path + "//" + Path.GetDirectoryName(names[n]));
