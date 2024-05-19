@@ -5,6 +5,7 @@
 //STAR WARS™ Empire at War - Gold Pack https://store.steampowered.com/app/32470
 //Battle for Graxia https://steamcommunity.com/app/90530
 //Victory Command https://steamcommunity.com/app/360480
+//Universe at War: Earth Assault https://steamcommunity.com/app/10430
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
