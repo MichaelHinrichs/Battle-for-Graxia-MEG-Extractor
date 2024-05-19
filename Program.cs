@@ -1,6 +1,7 @@
 ﻿//Written for games that use Megafiles.
-//Battle for Graxia https://steamcommunity.com/app/90530/
-//Victory Command https://steamcommunity.com/app/360480/
+//Command & Conquer™ Remastered Collection https://store.steampowered.com/app/1213210
+//Battle for Graxia https://steamcommunity.com/app/90530
+//Victory Command https://steamcommunity.com/app/360480
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
